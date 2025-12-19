@@ -1,5 +1,0 @@
-# 规则1：将根路径("/")重定向到login.html
-/ /html/login.html 301
-
-# 规则2：将所有404页面重定向到login.html（可选）
-/* /html/login.html 301
