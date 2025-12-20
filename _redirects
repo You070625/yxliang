@@ -1,2 +1,0 @@
-# 示例1：所有请求都重定向到login.html（URL不变，仅显示内容，用200状态码）
-/*  /html/login.html  200
