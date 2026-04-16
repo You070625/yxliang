@@ -1,29 +1,31 @@
-
 <!DOCTYPE html>
 <html lang="zh">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>LOVE</title>
 <style>
   html,body{
     height:100%;margin:0;overflow:hidden;
     font-family:"微软雅黑",sans-serif;
     background:linear-gradient(180deg,#fef6f9 0%,#cbeeff 100%);
+    max-width:100vw;overflow-x:hidden;
   }
   .stage{position:relative;width:100%;height:100%;overflow:hidden;}
   .flake{
     position:absolute;
     top:-10vh;
-    padding:10px 18px;
-    border-radius:20px;
-    font-size:clamp(14px,2.8vmin,22px);
+    padding:1vmin 2.5vmin;
+    border-radius:3vmin;
+    font-size:clamp(13px,3.2vmin,24px);
     color:#fff;
     font-weight:700;
     opacity:0;
     background:var(--bg);
     animation:fallAndSway var(--dur) ease-in-out var(--delay) forwards;
-    box-shadow:0 5px 15px rgba(0,0,0,.25);
+    box-shadow:0 0.5vmin 2vmin rgba(0,0,0,.25);
+    white-space:nowrap;
+    max-width:30vw;
   }
   @keyframes fallAndSway{
     0%{opacity:0;transform:translateX(0) translateY(-10vh) rotate(var(--rot));}
@@ -35,99 +37,95 @@
     100%{opacity:0;transform:translateX(var(--x1)) translateY(110vh) rotate(calc(var(--rot) + 10deg));}
   }
   .replay{
-    position:absolute;right:18px;bottom:18px;
-    padding:10px 14px;border:none;border-radius:10px;
+    position:absolute;right:2vmin;bottom:2vmin;
+    padding:1.5vmin 2.5vmin;
+    border:none;border-radius:2vmin;
     background:rgba(255,255,255,.4);backdrop-filter:blur(6px);
     color:#222;font-weight:600;cursor:pointer;
-    box-shadow:0 4px 15px rgba(0,0,0,.2);
+    font-size:clamp(12px,2.5vmin,18px);
+    box-shadow:0 0.4vmin 2vmin rgba(0,0,0,.2);
+    z-index: 9999;
   }
-  
+
   .finale{
-    position:absolute;top:0;left:0;width:100%;height:100%;
+    position:absolute;top:0;left:0;width:100vw;height:100vh;
     display:flex;align-items:center;justify-content:center;
     opacity:0;pointer-events:none;
+    overflow:hidden;
   }
   .finale.show{opacity:1;}
-  
+
   .collage{
-    position:relative;
-    width:100vw;
-    height:100vh;
+    position:relative;width:100vw;height:100vh;
+    overflow:hidden;
   }
-  
+
   .collage-item{
     position:absolute;
     display:flex;align-items:center;justify-content:center;
-    padding:clamp(8px,1.8vmin,15px);
-    border-radius:clamp(8px,1.5vmin,12px);
-    font-size:clamp(12px,2vmin,16px);
+    padding:1vmin 1.8vmin;
+    border-radius:1.8vmin;
+    font-size:clamp(11px,2.2vmin,18px);
     font-weight:700;color:#fff;
     text-align:center;
     background:var(--bg);
-    box-shadow:0 5px 15px rgba(0,0,0,.3);
+    box-shadow:0 0.5vmin 2vmin rgba(0,0,0,.3);
     opacity:0;
     left:var(--finalX);
     top:var(--finalY);
     transform:translate(var(--fromX),var(--fromY)) rotate(var(--fromRot)) scale(0.3);
     z-index:var(--z);
-    white-space:nowrap;
-    max-width:clamp(80px,18vw,140px);
+    white-space:normal;word-break:break-all;
+    max-width:clamp(70px,22vw,160px);
+    overflow:hidden;
   }
-  
+
   .collage-item.flyIn{
     animation:collageFlyIn 1.3s cubic-bezier(0.34,1.56,0.64,1) forwards;
   }
-  
+
   @keyframes collageFlyIn{
     0%{
       opacity:0;
       transform:translate(var(--fromX),var(--fromY)) rotate(var(--fromRot)) scale(0.3);
     }
-    50%{
-      opacity:1;
-    }
+    50%{opacity:1;}
     100%{
       opacity:0.95;
       transform:translate(0,0) rotate(var(--finalRot)) scale(1);
     }
   }
-  
+
   .confession{
     position:fixed;
-    top:50%;
-    left:50%;
+    top:50%;left:50%;
     transform:translate(-50%,-50%);
-    display:flex;
-    gap:clamp(10px,2vmin,20px);
-    opacity:0;
-    z-index:9999;
+    display:flex;gap:clamp(8px,2.5vmin,22px);
+    opacity:0;z-index:9999;
+    flex-wrap:wrap;justify-content:center;
+    max-width:90vw;
   }
-  
-  .confession.show{
-    opacity:1;
-  }
-  
+
+  .confession.show{opacity:1;}
+
   .char-card{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    width:clamp(60px,15vmin,120px);
-    height:clamp(70px,17vmin,140px);
-    border-radius:clamp(12px,3vmin,20px);
-    font-size:clamp(40px,12vmin,90px);
-    font-weight:900;
-    color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    width:clamp(50px,18vmin,130px);
+    height:clamp(60px,20vmin,150px);
+    border-radius:clamp(10px,4vmin,24px);
+    font-size:clamp(35px,14vmin,100px);
+    font-weight:900;color:#fff;
     background:var(--cardBg);
-    box-shadow:0 10px 40px rgba(0,0,0,.3),
-               0 0 60px rgba(255,107,157,.6);
+    box-shadow:0 1.5vmin 5vmin rgba(0,0,0,.3),
+               0 0 8vmin rgba(255,107,157,.6);
     transform:scale(0) rotate(var(--fromRot));
     opacity:0;
   }
-  
+
   .char-card.pop{
     animation:cardPop 0.8s cubic-bezier(0.68,-0.55,0.265,1.55) forwards;
   }
-  
+
   @keyframes cardPop{
     0%{
       opacity:0;
@@ -137,53 +135,38 @@
       opacity:1;
       transform:scale(1.2) rotate(15deg) translateY(0);
     }
-    80%{
-      transform:scale(0.9) rotate(-5deg) translateY(0);
-    }
+    80%{transform:scale(0.9) rotate(-5deg) translateY(0);}
     100%{
       opacity:1;
       transform:scale(1) rotate(0deg) translateY(0);
     }
   }
-  
+
   @keyframes explodeOut{
     to{
       opacity:0;
       transform:translate(var(--explodeX),var(--explodeY)) rotate(var(--explodeRot)) scale(0.2);
     }
   }
-  
+
   .transition{
-    position:fixed;
-    top:0;left:0;
-    width:100%;height:100%;
+    position:fixed;top:0;left:0;width:100vw;height:100vh;
     background:radial-gradient(circle at center,
                 rgba(255,107,157,.95) 0%,
                 rgba(255,140,180,.85) 30%,
                 rgba(255,180,200,.7) 60%,
                 transparent 100%);
-    opacity:0;
-    z-index:9998;
-    pointer-events:none;
+    opacity:0;z-index:9998;pointer-events:none;
   }
-  
+
   .transition.flash{
     animation:flashTransition 1.2s ease-out forwards;
   }
-  
+
   @keyframes flashTransition{
-    0%{
-      opacity:0;
-      transform:scale(0.5);
-    }
-    40%{
-      opacity:1;
-      transform:scale(2);
-    }
-    100%{
-      opacity:0;
-      transform:scale(3);
-    }
+    0%{opacity:0;transform:scale(0.5);}
+    40%{opacity:1;transform:scale(2);}
+    100%{opacity:0;transform:scale(3);}
   }
 </style>
 </head>
@@ -194,6 +177,13 @@
     <div class="transition" id="transition"></div>
     <div class="confession" id="confession"></div>
   </div>
+
+  <!-- ✅ 音频标签（已放对位置） -->
+  <audio id="bgMusic" loop>
+    <source src="https://lf26-music-east.douyinstatic.com/obj/ies-music-hj/7495920705440140091.mp3" type="audio/mpeg">
+    您的浏览器不支持音频播放
+  </audio>
+  <!-- ✅ 重放按钮（已放对位置） -->
   <button class="replay" id="replay">重放</button>
 
 <script>
@@ -223,6 +213,7 @@ const collage=document.getElementById('collage');
 const transition=document.getElementById('transition');
 const confession=document.getElementById('confession');
 const replay=document.getElementById('replay');
+const bgMusic=document.getElementById('bgMusic'); // ✅ 已加音频变量
 
 const confessionTexts=['我好想你','我喜欢你','超级喜欢你','想你了','爱你呀'];
 
@@ -252,71 +243,56 @@ function createFlake(i){
 function showFinale(){
   finale.classList.add('show');
   collage.innerHTML='';
-  
-  // 使用所有50条文字
+
   const allTexts=tips;
   const count=allTexts.length;
-  
+
   const items=[];
   allTexts.forEach((text,i)=>{
     const item=document.createElement('div');
     item.className='collage-item';
     item.textContent=text;
     item.style.setProperty('--bg',gradient());
-    
-    // 动态生成不规则的位置（充分分散在整个画布上，包括边缘）
+
     const x=rand(-5,90)+'%';
     const y=rand(-5,90)+'%';
     const rot=rand(-30,30)+'deg';
     const z=Math.floor(rand(1,count));
-    
+
     item.style.setProperty('--finalX',x);
     item.style.setProperty('--finalY',y);
     item.style.setProperty('--finalRot',rot);
     item.style.setProperty('--z',z);
-    
-    // 从四面八方随机飞入
+
     const directions=['top','bottom','left','right','topLeft','topRight','bottomLeft','bottomRight'];
     const dir=pick(directions);
     let fromX,fromY,fromRot;
-    
+
     switch(dir){
-      case 'top':
-        fromX='0vw';fromY='-180vh';fromRot=rand(360,720)+'deg';break;
-      case 'bottom':
-        fromX='0vw';fromY='180vh';fromRot=rand(-720,-360)+'deg';break;
-      case 'left':
-        fromX='-180vw';fromY='0vh';fromRot=rand(-540,-180)+'deg';break;
-      case 'right':
-        fromX='180vw';fromY='0vh';fromRot=rand(540,900)+'deg';break;
-      case 'topLeft':
-        fromX='-150vw';fromY='-150vh';fromRot=rand(-900,-540)+'deg';break;
-      case 'topRight':
-        fromX='150vw';fromY='-150vh';fromRot=rand(720,1080)+'deg';break;
-      case 'bottomLeft':
-        fromX='-150vw';fromY='150vh';fromRot=rand(-1080,-720)+'deg';break;
-      case 'bottomRight':
-        fromX='150vw';fromY='150vh';fromRot=rand(900,1440)+'deg';break;
+      case 'top':fromX='0vw';fromY='-180vh';fromRot=rand(360,720)+'deg';break;
+      case 'bottom':fromX='0vw';fromY='180vh';fromRot=rand(-720,-360)+'deg';break;
+      case 'left':fromX='-180vw';fromY='0vh';fromRot=rand(-540,-180)+'deg';break;
+      case 'right':fromX='180vw';fromY='0vh';fromRot=rand(540,900)+'deg';break;
+      case 'topLeft':fromX='-150vw';fromY='-150vh';fromRot=rand(-900,-540)+'deg';break;
+      case 'topRight':fromX='150vw';fromY='-150vh';fromRot=rand(720,1080)+'deg';break;
+      case 'bottomLeft':fromX='-150vw';fromY='150vh';fromRot=rand(-1080,-720)+'deg';break;
+      case 'bottomRight':fromX='150vw';fromY='150vh';fromRot=rand(900,1440)+'deg';break;
     }
-    
+
     item.style.setProperty('--fromX',fromX);
     item.style.setProperty('--fromY',fromY);
     item.style.setProperty('--fromRot',fromRot);
-    
+
     collage.appendChild(item);
     items.push(item);
   });
-  
-  // 文字块快速连续飞入汇集
+
   items.forEach((item,i)=>{
-    setTimeout(()=>{
-      item.classList.add('flyIn');
-    },i*60);
+    setTimeout(()=>{item.classList.add('flyIn');},i*60);
   });
-  
+
   const flyInDuration=items.length*60+1300;
-  
-  // 停留2.5秒后，文字爆炸散开
+
   setTimeout(()=>{
     items.forEach(item=>{
       const explodeAngle=Math.random()*Math.PI*2;
@@ -324,25 +300,20 @@ function showFinale(){
       const explodeX=Math.cos(explodeAngle)*explodeDist+'vw';
       const explodeY=Math.sin(explodeAngle)*explodeDist+'vh';
       const explodeRot=rand(-720,720)+'deg';
-      
+
       item.style.setProperty('--explodeX',explodeX);
       item.style.setProperty('--explodeY',explodeY);
       item.style.setProperty('--explodeRot',explodeRot);
       item.style.animation='explodeOut 0.8s ease-in forwards';
     });
-    
-    // 爆炸后0.3秒，触发粉色闪光转场
-    setTimeout(()=>{
-      transition.classList.add('flash');
-    },300);
-    
-    // 转场动画中间时刻（0.5秒），表白文字卡片弹出
+
+    setTimeout(()=>{transition.classList.add('flash');},300);
+
     setTimeout(()=>{
       const text=pick(confessionTexts);
       confession.innerHTML='';
       confession.classList.add('show');
-      
-      // 把文字拆成单个字符，每个字符一个卡片
+
       const chars=text.split('');
       chars.forEach((char,i)=>{
         const card=document.createElement('div');
@@ -351,16 +322,12 @@ function showFinale(){
         card.style.setProperty('--cardBg',gradient());
         card.style.setProperty('--fromRot',rand(-360,360)+'deg');
         confession.appendChild(card);
-        
-        // 字符卡片依次弹出
-        setTimeout(()=>{
-          card.classList.add('pop');
-        },i*150);
+
+        setTimeout(()=>{card.classList.add('pop');},i*150);
       });
     },800);
   },flyInDuration+2500);
-  
-  // 表白文字卡片停留3秒后淡出
+
   setTimeout(()=>{
     const cards=confession.querySelectorAll('.char-card');
     cards.forEach((card,i)=>{
@@ -369,8 +336,7 @@ function showFinale(){
       },i*80);
     });
   },flyInDuration+2500+800+3000);
-  
-  // 完全结束
+
   setTimeout(()=>{
     finale.classList.remove('show');
     collage.innerHTML='';
@@ -387,22 +353,29 @@ function play(){
   transition.className='transition';
   confession.className='confession';
   confession.innerHTML='';
-  
+
+  // ✅ 已加播放音乐逻辑
+  bgMusic.play().catch(e => console.log("等待用户交互后播放音乐"));
+
   const style=document.createElement('style');
   style.textContent='@keyframes fadeOut{to{opacity:0;transform:scale(0.8) rotate(calc(var(--finalRot) + 45deg));}}';
   if(!document.getElementById('fadeOutStyle')){
     style.id='fadeOutStyle';
     document.head.appendChild(style);
   }
-  
+
   for(let i=0;i<15;i++) createFlake(i);
-  
+
   setTimeout(showFinale,10500);
 }
 
 replay.onclick=play;
 play();
+
+// ✅ 已加首次点击解锁音乐
+document.body.addEventListener('click', () => {
+  bgMusic.play().catch(e => console.log("播放音乐失败"));
+}, { once: true });
 </script>
 </body>
 </html>
-
